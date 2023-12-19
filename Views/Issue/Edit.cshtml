@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Edit Issue";
+
+}
+@model Issue
+
+<h1>@ViewData["Title"]</h1>
+
+<div asp-validation-summary="All" class="text-danger">
+</div>
+
+<form method="post">
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Title</label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="Title">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" asp-for="Description"></textarea>
+        </div>
+    </div>
+    <fieldset class="row mb-3">
+        <legend class="col-form-label col-sm-2 pt-0">Status</legend>
+        <div class="col-sm-10">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" asp-for="Status" value="OPEN">
+                <label class="form-check-label" for="Status1">
+                    <span class="badge rounded-pill text-bg-danger">Open</span>
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" asp-for="Status" value="IN_PROGESS">
+                <label class="form-check-label" for="Status2">
+                    <span class="badge rounded-pill text-bg-warning">In Progress</span>
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" asp-for="Status" value="CLOSED">
+                <label class="form-check-label" for="Status3">
+                    <span class="badge rounded-pill text-bg-success">Closed</span>
+                </label>
+            </div>
+        </div>
+    </fieldset>
+    <button type="submit" class="btn btn-sm btn-primary me-2">Update</button>
+    <a asp-controller="Issue" asp-action="Index" class="btn btn-sm btn-outline-primary">Go back</a><br />
+</form>
