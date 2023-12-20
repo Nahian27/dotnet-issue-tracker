@@ -13,7 +13,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<a asp-controller="Issue" asp-action="Create" class="btn btn-sm btn-primary mt-2 mb-4">New Issue</a>
+<a asp-controller="Issue" asp-action="Create" class="btn btn-primary mt-2 mb-4">New Issue</a>
 <div class="card p-3 overflow-y-scroll">
     <table class="table m-0 table-bordered">
         <thead>
@@ -23,14 +23,13 @@
                 <th scope="col">Description</th>
                 <th scope="col">Created at</th>
                 <th scope="col">Updated at</th>
-                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach (Issue obj in Model.OrderBy(u => u.CreatedAt))
             {
                 <tr>
-                    <td>@obj.Title</td>
+                    <td><a asp-controller="Issue" asp-action="Edit" asp-route-id="@obj.Id" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">@obj.Title</a></td>
                     <td>
                         <span class="badge rounded-pill
                         @(obj.Status==Status.OPEN ?"text-bg-danger":
@@ -40,15 +39,10 @@
                         </span>
                     </td>
                     <td>@obj.Description</td>
-                    <td>@obj.CreatedAt.ToLocalTime()</td>
-                    <td>@obj.UpdatedAt?.ToLocalTime()</td>
-                    <td>
-                        <a asp-controller="Issue" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-sm btn-outline-info me-2">Edit</a>
-                        <a asp-controller="Issue" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-sm btn-outline-danger">Delete</a>
-                    </td>
+                    <td>@obj.CreatedAt</td>
+                    <td>@obj.UpdatedAt</td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
-

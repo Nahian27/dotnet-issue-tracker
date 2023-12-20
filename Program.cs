@@ -1,5 +1,6 @@
 using dotnet_issue_tracker.Data;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace dotnet_issue_tracker
 {
@@ -8,10 +9,12 @@ namespace dotnet_issue_tracker
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            var dataSourceBuilder = new NpgsqlDataSourceBuilder(Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection"));
+            dataSourceBuilder.UseNodaTime();
+            var dataSource = dataSourceBuilder.Build();
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")));
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(dataSource, o => o.UseNodaTime()));
 
             var app = builder.Build();
 

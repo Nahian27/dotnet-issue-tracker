@@ -1,11 +1,13 @@
 ﻿using dotnet_issue_tracker.Data;
 using dotnet_issue_tracker.Models;
 using Microsoft.AspNetCore.Mvc;
+using NodaTime;
 
 namespace dotnet_issue_tracker.Controllers
 {
     public class IssueController(AppDbContext db) : Controller
     {
+
         public IActionResult Index()
         {
             List<Issue> IssueList = [.. db.Issues];
@@ -55,10 +57,15 @@ namespace dotnet_issue_tracker.Controllers
 
             if (ModelState.IsValid && issue != null)
             {
+                var tzdb = DateTimeZoneProviders.Tzdb;
+                var dhakaTimeZone = tzdb["Asia/Dhaka"];
+                var now = SystemClock.Instance.GetCurrentInstant();
+                var DhakaTime = now.InZone(dhakaTimeZone).LocalDateTime;
+
                 issue.Title = data.Title;
                 issue.Description = data.Description;
                 issue.Status = data.Status;
-                issue.UpdatedAt = DateTime.UtcNow;
+                issue.UpdatedAt = DhakaTime;
                 db.SaveChanges();
 
                 TempData["success"] = "Issue Updated Successfully";

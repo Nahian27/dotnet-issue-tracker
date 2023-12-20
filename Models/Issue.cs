@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NodaTime;
+using System.ComponentModel.DataAnnotations;
 
 namespace dotnet_issue_tracker.Models
 {
@@ -19,8 +20,17 @@ namespace dotnet_issue_tracker.Models
         [MinLength(3, ErrorMessage = "Description must be at least 3 characters")]
         public string? Description { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public LocalDateTime CreatedAt { get; set; }
+        public LocalDateTime? UpdatedAt { get; set; }
+
+        public Issue()
+        {
+            // Initialize CreatedTime with the current time in Dhaka time zone
+            var tzdb = DateTimeZoneProviders.Tzdb;
+            var dhakaTimeZone = tzdb["Asia/Dhaka"];
+            var now = SystemClock.Instance.GetCurrentInstant();
+            CreatedAt = now.InZone(dhakaTimeZone).LocalDateTime;
+        }
 
     }
 }
