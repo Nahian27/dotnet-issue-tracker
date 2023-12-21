@@ -38,8 +38,8 @@
                         </span>
                     </td>
                     <td>@obj.Description</td>
-                    <td>@obj.CreatedAt.ToString()</td>
-                    <td>@obj.UpdatedAt.ToString()</td>
+                    <td class="local-time">@obj.CreatedAt.ToString()</td>
+                    <td class="local-time">@obj.UpdatedAt.ToString()</td>
                 </tr>
             }
         </tbody>
@@ -52,10 +52,9 @@
             const localTimeElements = document.querySelectorAll(".local-time");
 
             localTimeElements.forEach(function (element) {
-                const utcTime = new Date(element.textContent.trim());
-                const localTimeOffset = new Date().getTimezoneOffset();
-                const localTime = new Date(utcDate.getTime() - (localTimeOffset * 60000));
-                element.textContent = localTime.toUTCString()
+                const utcTime = element.textContent.trim();
+                const localTime = new Date(utcTime).toLocaleString();
+                element.textContent = localTime;
             });
         });
     </script>
