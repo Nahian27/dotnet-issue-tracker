@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using NodaTime;
 
 #nullable disable
 
@@ -20,8 +19,8 @@ namespace dotnet_issue_tracker.Migrations
                     Title = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<LocalDateTime>(type: "timestamp without time zone", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {

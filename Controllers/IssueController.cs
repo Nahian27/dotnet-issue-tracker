@@ -1,30 +1,30 @@
 ﻿using dotnet_issue_tracker.Data;
 using dotnet_issue_tracker.Models;
 using Microsoft.AspNetCore.Mvc;
-using NodaTime;
 
 namespace dotnet_issue_tracker.Controllers
 {
     public class IssueController(AppDbContext db) : Controller
     {
+        public Issue? issue;
 
         public IActionResult Index()
         {
             List<Issue> IssueList = [.. db.Issues];
-
             return View(IssueList);
         }
         public IActionResult Create()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult Create(Issue data)
         {
             if (data.Description != null && data.Title == data.Description)
-            {
+
                 ModelState.AddModelError("", "The Description can't exactly match the Title");
-            }
+
 
             if (ModelState.IsValid)
             {
@@ -32,40 +32,38 @@ namespace dotnet_issue_tracker.Controllers
                 db.SaveChanges();
 
                 TempData["success"] = "Issue Created Successfully";
+
                 return RedirectToAction("Index");
             }
             return View();
         }
+
         [HttpGet]
         public IActionResult Edit(Guid id)
         {
-            Issue? issue = db.Issues.Find(id);
+            issue = db.Issues.Find(id);
 
-            if (issue == null) return NotFound();
+            if (issue == null)
+                return NotFound();
 
             return View(issue);
         }
+
         [HttpPost]
         public IActionResult Edit(Issue data)
         {
             if (data.Description != null && data.Title == data.Description)
-            {
-                ModelState.AddModelError("", "The Description can't exactly math the Title");
-            }
 
-            Issue? issue = db.Issues.Find(data.Id);
+                ModelState.AddModelError("", "The Description can't exactly match the Title");
+
+            issue = db.Issues.Find(data.Id);
 
             if (ModelState.IsValid && issue != null)
             {
-                var tzdb = DateTimeZoneProviders.Tzdb;
-                var dhakaTimeZone = tzdb["Asia/Dhaka"];
-                var now = SystemClock.Instance.GetCurrentInstant();
-                var DhakaTime = now.InZone(dhakaTimeZone).LocalDateTime;
-
                 issue.Title = data.Title;
                 issue.Description = data.Description;
                 issue.Status = data.Status;
-                issue.UpdatedAt = DhakaTime;
+                issue.UpdatedAt = DateTime.UtcNow;
                 db.SaveChanges();
 
                 TempData["success"] = "Issue Updated Successfully";
@@ -75,12 +73,13 @@ namespace dotnet_issue_tracker.Controllers
 
             return View();
         }
+
         public IActionResult Delete(Guid id)
         {
+            issue = db.Issues.Find(id);
 
-            Issue? issue = db.Issues.Find(id);
-
-            if (issue == null) return NotFound();
+            if (issue == null)
+                return NotFound();
 
             db.Issues.Remove(issue);
             db.SaveChanges();

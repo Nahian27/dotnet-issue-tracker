@@ -21,8 +21,8 @@
                 <th scope="col">Title</th>
                 <th scope="col">Status</th>
                 <th scope="col">Description</th>
-                <th scope="col">Created at</th>
-                <th scope="col">Updated at</th>
+                <th scope="col" >Created at</th>
+                <th scope="col" >Updated at</th>
             </tr>
         </thead>
         <tbody>
@@ -33,16 +33,30 @@
                     <td>
                         <span class="badge rounded-pill
                         @(obj.Status==Status.OPEN ?"text-bg-danger":
-                        obj.Status==Status.IN_PROGESS ? "text-bg-warning":
-                        obj.Status==Status.CLOSED ? "text-bg-success":"")">
+                        obj.Status==Status.IN_PROGESS ? "text-bg-warning":"text-bg-success")">
                         @(obj.Status==Status.IN_PROGESS? "In Progress": obj.Status==Status.OPEN ? "Open":"Closed")
                         </span>
                     </td>
                     <td>@obj.Description</td>
-                    <td>@obj.CreatedAt</td>
-                    <td>@obj.UpdatedAt</td>
+                    <td>@obj.CreatedAt.ToString()</td>
+                    <td>@obj.UpdatedAt.ToString()</td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const localTimeElements = document.querySelectorAll(".local-time");
+
+            localTimeElements.forEach(function (element) {
+                const utcTime = new Date(element.textContent.trim());
+                const localTimeOffset = new Date().getTimezoneOffset();
+                const localTime = new Date(utcDate.getTime() - (localTimeOffset * 60000));
+                element.textContent = localTime.toUTCString()
+            });
+        });
+    </script>
+}
