@@ -19,8 +19,8 @@ namespace dotnet_issue_tracker.Models
 
         [MinLength(3, ErrorMessage = "Description must be at least 3 characters")]
         public string? Description { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset? UpdatedAt { get; set; }
 
     }
 }

@@ -63,7 +63,7 @@ namespace dotnet_issue_tracker.Controllers
                 issue.Title = data.Title;
                 issue.Description = data.Description;
                 issue.Status = data.Status;
-                issue.UpdatedAt = DateTime.UtcNow;
+                issue.UpdatedAt = DateTimeOffset.UtcNow;
                 db.SaveChanges();
 
                 TempData["success"] = "Issue Updated Successfully";
