@@ -38,15 +38,15 @@
                         </span>
                     </td>
                     <td>@obj.Description</td>
-                    <td>@obj.CreatedAt.LocalDateTime</td>
-                    <td>@obj.UpdatedAt?.LocalDateTime</td>
+                    <td class="utc-time">@obj.CreatedAt</td>
+                    <td class="utc-time">@obj.UpdatedAt</td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
 
-@* <script>
+<script>
         document.addEventListener("DOMContentLoaded", function () {
             const utcTimeElements = document.querySelectorAll(".utc-time");
 
@@ -58,4 +58,4 @@
                 }
             });
         });
-</script> *@
+</script>
